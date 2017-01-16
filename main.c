@@ -43,10 +43,12 @@ char *my_getenv(char **env)
 
 int main(int ac, char **av, char **env)
 {
+  char *s;
   while (1)
     {
       write (0, "$>", 3);
       get_next_line(0);
-      my_getenv(env);
+      s = my_getenv(env);
+      my_str_to_wordtab(s);
     }
 }
