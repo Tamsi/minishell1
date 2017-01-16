@@ -47,7 +47,9 @@ int main(int ac, char **av, char **env)
   while (1)
     {
       write (0, "$>", 3);
-      get_next_line(0);
+      s = get_next_line(0);
+      if (my_strncmp("exit", s, 5) == 0)
+        exit (0);
       s = my_getenv(env);
       my_str_to_wordtab(s);
     }
