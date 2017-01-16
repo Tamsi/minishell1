@@ -27,22 +27,26 @@ int		my_strncmp(char *s1, char *s2, int len)
 
 char *my_getenv(char **env)
 {
-	int i;
+  int i;
+  char *s;
 
-	i = 1;
-	while (my_strncmp(env[i - 1], "PATH", 4) != 0)
-	{
-		printf("%s\n", env[i]);
-		i++;
-	}
+  i = 0;
+  s = malloc (100 * sizeof(char));
+  while (env[i] != NULL)
+  {
+    if (my_strncmp(env[i], "PATH", 4) == 0)
+      s = env[i];
+    i++;
+  }
+  return (s);
 }
 
 int main(int ac, char **av, char **env)
 {
-  /*while (42)
+  while (1)
     {
       write (0, "$>", 3);
       get_next_line(0);
-    }*/
-	my_getenv(env);
+      my_getenv(env);
+    }
 }
