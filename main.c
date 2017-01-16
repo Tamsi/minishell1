@@ -44,6 +44,8 @@ char *my_getenv(char **env)
 int main(int ac, char **av, char **env)
 {
   char *s;
+  pid_t process;
+
   while (1)
     {
       write (0, "$>", 3);
@@ -52,5 +54,15 @@ int main(int ac, char **av, char **env)
         exit (0);
       s = my_getenv(env);
       my_str_to_wordtab(s);
+      /*process = fork();
+        if (process == 0)
+        {
+          int retour = execve(tab[0], tab);
+          exit(0);
+        }
+        else
+        {
+            wait(&process);
+        }*/
     }
 }
