@@ -5,12 +5,12 @@
 ## Login   <tbesson@epitech.net>
 ## 
 ## Started on  Tue Dec  6 14:57:19 2016 Tamsi Besson
-## Last update Mon Jan 16 14:08:54 2017 Tamsi Besson
+## Last update Mon Jan 16 14:52:37 2017 Tamsi Besson
 ##
 
 SRC=            main.c \
 		get_next_line.c \
-		my_putstr.c
+
 NAME	=	mysh
 
 OBJ=            $(SRC:.c=.o)
