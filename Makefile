@@ -5,11 +5,12 @@
 ## Login   <tbesson@epitech.net>
 ## 
 ## Started on  Tue Dec  6 14:57:19 2016 Tamsi Besson
-## Last update Mon Jan 16 14:52:37 2017 Tamsi Besson
+## Last update Mon Jan 16 17:33:56 2017 Tamsi Besson
 ##
 
-SRC=            main.c \
+SRC=   	 	main.c \
 		get_next_line.c \
+		my_str_to_wordtab.c
 
 NAME	=	mysh
 

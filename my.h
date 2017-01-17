@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 
 int my_putstr(char *);
 int     my_strlen(char *);
@@ -21,3 +22,4 @@ char    *my_realloc(char *);
 char *my_strcat(char *, char *);
 char *stock_line(char *);
 char *get_next_line(const int);
+char    **my_str_to_wordtab(char *);
