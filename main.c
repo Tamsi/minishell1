@@ -74,13 +74,33 @@ void cmd(char **tab2d, char **av, char **env)
         wait(&process);
       break;
     }
-    else
-    {
-      write (2, my_strcat(av[0], ": Command not foud.\n"), my_strlen(av[0]) + 21);
-      break;
-    }
     i++;
   }
+  if (access(tab2d[i], F_OK) != 0)
+    write (2, my_strcat(av[0], ": Command not foud.\n"), my_strlen(av[0]) + 21);
+}
+
+int my_function(char *s, char **env)
+{
+  int i;
+
+  i = 0;
+  if (my_strncmp("exit", s, 5) == 0)
+  {
+    write (0, my_strcat(s, "\n"), 6);
+    exit (0);
+  }
+  if (my_strncmp("env", s, 4) == 0)
+  {
+    while (env[i] != NULL)
+    {
+      write (0, env[i], my_strlen(env[i]));
+      write(0, "\n", 1);
+      i++;
+    }
+    return (1);
+  }
+  return (0);
 }
 
 int main(int ac, char **av, char **env)
@@ -95,9 +115,8 @@ int main(int ac, char **av, char **env)
       s = get_next_line(0);
       str2d = malloc (1000 * sizeof(char *));
       str2d = my_str_to_wordtab(s, ' ');
-      if (my_strncmp("exit", s, 5) == 0)
-        exit (0);
       tab2d = path2d(s, env);
-      cmd(tab2d, str2d, env);
+      if (!my_function(s, env))
+        cmd(tab2d, str2d, env);
     }
 }
