@@ -43,7 +43,7 @@ char **path2d(char *s, char **env)
 
   tab2d = malloc (1000 * sizeof(char *));
   str = my_getenv(env);
-  tab2d = my_str_to_wordtab(str);
+  tab2d = my_str_to_wordtab(str, ':');
   i = 0;
   while (tab2d[i])
   {
@@ -54,25 +54,39 @@ char **path2d(char *s, char **env)
   return (tab2d);
 }
 
-void cmd(char **tab2d, char **av, char **env)
+void cmd(char **tab2d, char *s, char **env)
 {
   pid_t process;
   int i;
+  char **av;
 
-  i = 0;
-  if (access(tab2d[i], F_OK) == 0)
+  av = malloc (1000 * sizeof(char *));
+  av = my_str_to_wordtab(s, ' ');
+  for (int y = 0; tab2d[y] != NULL; y++)
   {
-    process = fork();
-    if (process == 0)
-    {
-      execve(tab2d[i], av, env);
-      exit(0);
-    }
-    else
-      wait(&process);
+    for (i = 2; av[i] != NULL; i++)
+      my_strcat(tab2d[y], av[i]);
+    //printf("%s\n", tab2d[y]);
   }
-  else
+  i = 0;
+  int check = 0;
+  while (tab2d[i] != NULL)
+  {
+    if (access(tab2d[i], F_OK) == 0)
+    {
+      check = 1;
+      process = fork();
+      if (process == 0)
+      {
+        execve(tab2d[i], av, env);
+        exit(0);
+      }
+      else
+        wait(&process);
+      break;
+    }
     i++;
+  }
 }
 
 int main(int ac, char **av, char **env)
@@ -86,6 +100,6 @@ int main(int ac, char **av, char **env)
       if (my_strncmp("exit", s, 5) == 0)
         exit (0);
       tab2d = path2d(s, env);
-      cmd(tab2d, av, env);
+      cmd(tab2d, s, env);
     }
 }

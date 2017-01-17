@@ -24,4 +24,4 @@ char    *my_realloc(char *);
 char *my_strcat(char *, char *);
 char *stock_line(char *);
 char *get_next_line(const int);
-char    **my_str_to_wordtab(char *);
+char    **my_str_to_wordtab(char *, char);
