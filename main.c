@@ -80,8 +80,7 @@ int main(int ac, char **av, char **env)
   i = 0;
   while (tab2d[i])
   {
-    tab2d[i][my_strlen(tab2d[i])] = '/';
-    tab2d[i][my_strlen(tab2d[i]) + 1] = '\0';
+    my_strcat(tab2d[i], "/");
     my_strcat(tab2d[i], tab[0]);
     i++;
   }
@@ -92,13 +91,18 @@ int main(int ac, char **av, char **env)
       get_next_line(0);
       if (my_strncmp("exit", s, 5) == 0)
         exit (0);
-      process = fork();
-        if (process == 0)
-        {
-          execve(tab[0], tab2d, env);
-          exit(0);
-        }
-        else
-          wait(&process);
+      if (access(tab2d[i], F_OK) == 0)
+      {
+        process = fork();
+          if (process == 0)
+          {
+            execve(tab2d[i], av, env);
+            exit(0);
+          }
+          else
+            wait(&process);
+      }
+      else
+        i++;
     }
 }
