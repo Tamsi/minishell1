@@ -11,18 +11,6 @@
 #define READ_SIZE 1
 #include "my.h"
 
-int     my_strlen(char *str)
-{
-  int   length;
-
-  length = 0;
-  while (str[length] != '\0')
-    {
-      length = length + 1;
-    }
-  return (length);
-}
-
 char    *my_realloc(char *str)
 {
   char  *stock;

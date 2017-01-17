@@ -10,7 +10,8 @@
 
 SRC=   	 	main.c \
 		get_next_line.c \
-		my_str_to_wordtab.c
+		my_str_to_wordtab.c \
+		my_strfct.c
 
 NAME	=	mysh
 
