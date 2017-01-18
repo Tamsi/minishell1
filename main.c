@@ -10,7 +10,7 @@
 
 #include "my.h"
 
-char *my_getenv(char **env)
+char *getpath(char **env)
 {
   int i;
   int j;
@@ -20,64 +20,64 @@ char *my_getenv(char **env)
   i = 0;
   j = 0;
   k = my_strlen("PATH=");
-  s = malloc (100 * sizeof(char));
   while (env[i] != NULL)
   {
     if (my_strncmp(env[i], "PATH", 4) == 0)
+    {
+      s = malloc (my_strlen(env[i]) * sizeof(char) + 1);
       while (env[i][k] != '\0')
       {
         s[j] = env[i][k];
         j++;
         k++;
       }
+    }
     i++;
   }
   return (s);
 }
 
-char **path2d(char *s, char **env)
-{
-  char *str;
-  int i;
-  char **tab2d;
-
-  tab2d = malloc (1000 * sizeof(char *));
-  str = my_getenv(env);
-  tab2d = my_str_to_wordtab(str, ':');
-  i = 0;
-  while (tab2d[i])
-  {
-    my_strcat(tab2d[i], "/");
-    my_strcat(tab2d[i], s);
-    i++;
-  }
-  return (tab2d);
-}
-
-void cmd(char **tab2d, char **av, char **env)
+int get_exec_path(char *str, char **path, char **command)
 {
   pid_t process;
   int i;
 
   i = 0;
-  while (tab2d[i] != NULL)
+  while (path[i] != NULL)
   {
-    if (access(tab2d[i], F_OK) == 0)
+    my_strcat(path[i], "/");
+    my_strcat(path[i], command[0]);
+    if (access(path[i], F_OK) == 0)
     {
-      process = fork();
-      if (process == 0)
-      {
-        execve(tab2d[i], av, env);
-        exit(0);
-      }
-      else
-        wait(&process);
-      break;
+      str = path[i];
+      return (0);
     }
     i++;
   }
-  if (access(tab2d[i], F_OK) != 0)
-    write (2, my_strcat(av[0], ": Command not foud.\n"), my_strlen(av[0]) + 21);
+  return (-1);
+}
+
+void cmd(char **path, char **command, char **env)
+{
+  pid_t process;
+  char *path_command;
+
+  path_command = malloc (1000 * sizeof(char));
+  if (get_exec_path(path_command, path, command) != 0)
+  {
+    write (2, my_strcat(command[0], ": Command not foud.\n"), my_strlen(command[0]) + 21);
+    exit (0);
+  }
+  printf("%s\n", path_command);
+  process = fork();
+  if (process == 0)
+  {
+    execve(path_command, command, env);
+    write (2, my_strcat(command[0], ": Command not foud.\n"), my_strlen(command[0]) + 21);
+    exit(0);
+  }
+  else
+    wait(&process);
 }
 
 int my_function(char *s, char **env)
@@ -103,20 +103,33 @@ int my_function(char *s, char **env)
   return (0);
 }
 
+char **get_path2d(char **env)
+{
+  char *str;
+  char **path2d;
+
+  str = getpath(env);
+  path2d = my_str_to_wordtab(str, ':');
+  return (path2d);
+}
+
 int main(int ac, char **av, char **env)
 {
   char *s;
-  char **tab2d;
-  char **str2d;
+  char **path;
+  char **command;
 
+  path = get_path2d(env);
+  //for (int i = 0; path[i] != NULL; i++)
+    //printf("%s\n", path[i]);
   while (1)
     {
       write (0, "$>", 3);
       s = get_next_line(0);
-      str2d = malloc (1000 * sizeof(char *));
-      str2d = my_str_to_wordtab(s, ' ');
-      tab2d = path2d(s, env);
+      command = my_str_to_wordtab(s, ' ');
+      //for (int i = 0; command[i] != NULL; i++)
+        //printf("%s\n", command[i]);
       if (!my_function(s, env))
-        cmd(tab2d, str2d, env);
+        cmd(path, command, env);
     }
 }
