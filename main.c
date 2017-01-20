@@ -45,16 +45,17 @@ int get_exec_path(char *str, char **path, char **command)
   i = 0;
   while (path[i] != NULL)
   {
+    path[i] = my_realloc(path[i]);
     my_strcat(path[i], "/");
     my_strcat(path[i], command[0]);
     if (access(path[i], F_OK) == 0)
     {
-      str = path[i];
+      my_strcpy(str, path[i]);
       return (0);
     }
     i++;
   }
-  return (-1);
+  return (1);
 }
 
 void cmd(char **path, char **command, char **env)
@@ -65,16 +66,15 @@ void cmd(char **path, char **command, char **env)
   path_command = malloc (1000 * sizeof(char));
   if (get_exec_path(path_command, path, command) != 0)
   {
-    write (2, my_strcat(command[0], ": Command not foud.\n"), my_strlen(command[0]) + 21);
-    exit (0);
+    write (2, my_strcat(command[0], ": Command not found.\n"), my_strlen(command[0]) + 21);
+    exit (1);
   }
-  printf("%s\n", path_command);
   process = fork();
   if (process == 0)
   {
     execve(path_command, command, env);
-    write (2, my_strcat(command[0], ": Command not foud.\n"), my_strlen(command[0]) + 21);
-    exit(0);
+    write (2, my_strcat(command[0], ": Command not found.\n"), my_strlen(command[0]) + 21);
+    exit(1);
   }
   else
     wait(&process);
@@ -120,15 +120,11 @@ int main(int ac, char **av, char **env)
   char **command;
 
   path = get_path2d(env);
-  //for (int i = 0; path[i] != NULL; i++)
-    //printf("%s\n", path[i]);
   while (1)
     {
-      write (0, "$>", 3);
+      //write (0, "$>", 3);
       s = get_next_line(0);
       command = my_str_to_wordtab(s, ' ');
-      //for (int i = 0; command[i] != NULL; i++)
-        //printf("%s\n", command[i]);
       if (!my_function(s, env))
         cmd(path, command, env);
     }
