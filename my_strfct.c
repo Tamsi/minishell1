@@ -40,6 +40,25 @@ char    *my_strcat(char *dest, char *src)
   return (dest);
 }
 
+int     my_strcmp(char *str_left, char *str_right)
+{
+  int   i;
+
+  i = 0;
+  while (str_left[i] == str_right[i] && str_left[i] && str_right[i])
+    {
+      i = i + 1;
+    }
+  if (str_left[i] == '\0' && str_right[i] == '\0')
+    {
+      return (0);
+    }
+  else
+    {
+      return (str_left[i] - str_right[i]);
+    }
+}
+
 int		my_strncmp(char *s1, char *s2, int len)
 {
   int	i;

@@ -61,13 +61,11 @@ int count(char *str, int debut, char c)
 
 char    **my_str_to_wordtab(char *str, char c)
 {
-  //char c;
   int   i;
   int   j;
   char  car_prec;
   char  **tab;
 
-  //c = ':';
   i = 0;
   j = 0;
   tab = malloc((word_count(str, c) + 1) * sizeof(tab));

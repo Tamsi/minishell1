@@ -25,7 +25,7 @@ char    *my_realloc(char *str)
       i++;
     }
   stock[i + 1] = '\0';
-  free(str);
+  //free(str);
   return (stock);
 }
 

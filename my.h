@@ -19,6 +19,7 @@
 int my_putstr(char *);
 int     my_strlen(char *);
 int		my_strncmp(char *, char *, int);
+int		my_strcmp(char *, char *);
 char    *my_strcat(char *, char *);
 char    *my_realloc(char *);
 char    *my_strcpy(char *, char *);

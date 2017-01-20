@@ -45,14 +45,15 @@ int get_exec_path(char *str, char **path, char **command)
   i = 0;
   while (path[i] != NULL)
   {
-    path[i] = my_realloc(path[i]);
     my_strcat(path[i], "/");
     my_strcat(path[i], command[0]);
     if (access(path[i], F_OK) == 0)
     {
       my_strcpy(str, path[i]);
+      path[i][my_strlen(path[i]) - (1 + my_strlen(command[0]))] = '\0';
       return (0);
     }
+    path[i][my_strlen(path[i]) - (1 + my_strlen(command[0]))] = '\0';
     i++;
   }
   return (1);
@@ -64,11 +65,13 @@ void cmd(char **path, char **command, char **env)
   char *path_command;
 
   path_command = malloc (1000 * sizeof(char));
-  if (get_exec_path(path_command, path, command) != 0)
+  /*if (get_exec_path(path_command, path, command) != 0)
   {
+    printf("yayayayayaaa");
     write (2, my_strcat(command[0], ": Command not found.\n"), my_strlen(command[0]) + 21);
     exit (1);
-  }
+  }*/
+  get_exec_path(path_command, path, command);
   process = fork();
   if (process == 0)
   {
@@ -85,12 +88,12 @@ int my_function(char *s, char **env)
   int i;
 
   i = 0;
-  if (my_strncmp("exit", s, 5) == 0)
+  if (my_strcmp("exit", s) == 0)
   {
     write (0, my_strcat(s, "\n"), 6);
     exit (0);
   }
-  if (my_strncmp("env", s, 4) == 0)
+  if (my_strcmp("env", s) == 0)
   {
     while (env[i] != NULL)
     {
