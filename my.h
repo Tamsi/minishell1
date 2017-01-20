@@ -17,13 +17,18 @@
 #include <sys/wait.h>
 
 int my_putstr(char *);
-int     my_strlen(char *);
-int		my_strncmp(char *, char *, int);
-int		my_strcmp(char *, char *);
-char    *my_strcat(char *, char *);
-char    *my_realloc(char *);
-char    *my_strcpy(char *, char *);
+int my_strlen(char *);
+int	my_strncmp(char *, char *, int);
+int	my_strcmp(char *, char *);
+int my_builtins(char *, char **, char **);
+int my_exit(char *);
+int my_cd(char **);
+int my_env(char *, char **);
+char *my_strcat(char *, char *);
+char *my_realloc(char *);
+char *my_strcpy(char *, char *);
 char *my_strcat(char *, char *);
 char *stock_line(char *);
 char *get_next_line(const int);
-char    **my_str_to_wordtab(char *, char);
+char **my_str_to_wordtab(char *, char);
+void sig_handler(int);
