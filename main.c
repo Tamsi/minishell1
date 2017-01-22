@@ -99,6 +99,7 @@ int main(int ac, char **av, char **env)
   path = get_path2d(env, "PATH");
   while (1)
     {
+      write (0, "$>", 3);
       s = get_next_line(0);
       command = my_str_to_wordtab(s, ' ');
       if (command[0] != NULL)
