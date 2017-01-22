@@ -5,7 +5,7 @@
 ** Login   <tbesson@epitech.net>
 ** 
 ** Started on  Mon Jan 16 17:29:37 2017 Tamsi Besson
-** Last update Mon Jan 16 17:31:21 2017 Tamsi Besson
+** Last update Sun Jan 22 14:41:48 2017 Tamsi Besson
 */
 
 #include "my.h"
@@ -71,16 +71,16 @@ char    **my_str_to_wordtab(char *str, char c)
   tab = malloc((word_count(str, c) + 1) * sizeof(tab));
   car_prec = c;
   while (str[i] != '\0')
-  {
-    if ((car_prec == c) && (str[i] != c))
+    {
+      if ((car_prec == c) && (str[i] != c))
         {
           tab[j] = malloc((count(str, i, c) + 1) * sizeof(**tab));
           my_strncpy(str, tab[j], i, c);
           j++;
         }
-    car_prec = str[i];
-    i++;
-  }
+      car_prec = str[i];
+      i++;
+    }
   tab[j] = NULL;
   return (tab);
 }

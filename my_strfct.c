@@ -5,7 +5,7 @@
 ** Login   <tbesson@epitech.net>
 ** 
 ** Started on  Tue Jan 17 14:40:58 2017 Tamsi Besson
-** Last update Tue Jan 17 14:40:59 2017 Tamsi Besson
+** Last update Sat Jan 21 17:48:53 2017 Tamsi Besson
 */
 
 #include "my.h"
@@ -65,12 +65,12 @@ int     my_strncmp(char *s1, char *s2, int len)
 
   i = 0;
   while (s1[i] != '\0' && s2[i] != '\0' && i < len)
-        {
-        if (s1[i] == s2[i])
-                        i++;
-        else
-                        return (s1[i] - s2[i]);
-        }
+    {
+      if (s1[i] == s2[i])
+        i++;
+      else
+        return (s1[i] - s2[i]);
+    }
   return (0);
 }
 

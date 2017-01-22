@@ -5,7 +5,7 @@
 ** Login   <tbesson@epitech.net>
 ** 
 ** Started on  Mon Jan 16 14:03:49 2017 Tamsi Besson
-** Last update Sat Jan 21 14:17:06 2017 Tamsi Besson
+** Last update Sun Jan 22 14:42:43 2017 Tamsi Besson
 */
 
 #include "my.h"
@@ -21,19 +21,19 @@ char *getpath(char **env, char *path)
   j = 0;
   k = my_strlen(path) + 1;
   while (env[i] != NULL)
-  {
-    if (my_strncmp(env[i], path, 4) == 0)
     {
-      s = malloc (my_strlen(env[i]) * sizeof(char) + 1);
-      while (env[i][k] != '\0')
-      {
-        s[j] = env[i][k];
-        j++;
-        k++;
-      }
+      if (my_strncmp(env[i], path, 4) == 0)
+        {
+          s = malloc (my_strlen(env[i]) * sizeof(char) + 1);
+          while (env[i][k] != '\0')
+            {
+              s[j] = env[i][k];
+              j++;
+              k++;
+            }
+        }
+      i++;
     }
-    i++;
-  }
   return (s);
 }
 
@@ -44,20 +44,20 @@ int get_exec_path(char *str, char **path, char **command)
 
   i = 0;
   while (path[i] != NULL)
-  {
-    my_strcat(path[i], "/");
-    if (command[0] == NULL)
-      return (0);
-    my_strcat(path[i], command[0]);
-    if (access(path[i], F_OK) == 0)
     {
-      my_strcpy(str, path[i]);
+      my_strcat(path[i], "/");
+      if (command[0] == NULL)
+        return (0);
+      my_strcat(path[i], command[0]);
+      if (access(path[i], F_OK) == 0)
+        {
+          my_strcpy(str, path[i]);
+          path[i][my_strlen(path[i]) - (1 + my_strlen(command[0]))] = '\0';
+          return (0);
+        }
       path[i][my_strlen(path[i]) - (1 + my_strlen(command[0]))] = '\0';
-      return (0);
+      i++;
     }
-    path[i][my_strlen(path[i]) - (1 + my_strlen(command[0]))] = '\0';
-    i++;
-  }
   return (1);
 }
 
@@ -70,16 +70,15 @@ void cmd(char **path, char **command, char **env)
   get_exec_path(path_command, path, command);
   process = fork();
   if (process == 0)
-  {
-    execve(path_command, command, env);
-    write (2, my_strcat(command[0], ": Command not found.\n"),
-      my_strlen(command[0]) + 21);
-    exit(1);
-  }
+    {
+      execve(path_command, command, env);
+      write (2, my_strcat(command[0], ": Command not found.\n"),
+             my_strlen(command[0]) + 21);
+      exit(1);
+    }
   else
     wait(&process);
 }
-
 
 char **get_path2d(char **env, char *path)
 {

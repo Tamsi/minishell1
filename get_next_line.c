@@ -5,7 +5,7 @@
 ** Login   <tbesson@epitech.net>
 ** 
 ** Started on  Wed Jan  4 15:24:28 2017 Tamsi Besson
-** Last update Sun Jan 15 12:35:58 2017 Tamsi Besson
+** Last update Sun Jan 22 14:41:23 2017 Tamsi Besson
 */
 
 #define READ_SIZE 1
@@ -42,11 +42,11 @@ char *get_next_line(const int fd)
     return NULL;
   s[0] = '\0';
   while ((size = read(fd, buffer, READ_SIZE)) > 0 && buffer[0] != '\n')
-  {
-    s = my_realloc(s);
-    s[z] = buffer[0];
-    z++;
-  }
+    {
+      s = my_realloc(s);
+      s[z] = buffer[0];
+      z++;
+    }
   if (size == 0 && z == 0)
     return (NULL);
   else
