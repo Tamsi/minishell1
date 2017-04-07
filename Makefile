@@ -5,7 +5,7 @@
 ## Login   <tbesson@epitech.net>
 ## 
 ## Started on  Tue Dec  6 14:57:19 2016 Tamsi Besson
-## Last update Fri Jan 20 16:28:13 2017 Tamsi Besson
+## Last update Wed Apr  5 14:03:21 2017 Tamsi Besson
 ##
 
 SRC=   	 	main.c \
@@ -18,7 +18,7 @@ NAME	=	mysh
 
 OBJ=            $(SRC:.c=.o)
 
-$(NAME):        $(OBJ)
+$(NAME):        $(OBJ) 
 		gcc -o $(NAME) $(OBJ)
 
 
